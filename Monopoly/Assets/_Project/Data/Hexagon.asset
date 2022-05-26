@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 204d86ef01ad28b41806ef06a9b8438c, type: 3}
+  m_Name: Hexagon
+  m_EditorClassIdentifier: 
+  Sides:
+  - Rotation: {x: 0, y: 0, z: 180}
+    Value: 1
+  - Rotation: {x: 0, y: 90, z: 180}
+    Value: 2
+  - Rotation: {x: 270, y: 0, z: 0}
+    Value: 3
+  - Rotation: {x: 270, y: 179.99998, z: 0}
+    Value: 4
+  - Rotation: {x: 270, y: 90, z: 0}
+    Value: 5
+  - Rotation: {x: 0, y: 180.00002, z: 270}
+    Value: 6

@@ -9,19 +9,32 @@ public class Level : MonoBehaviour
 {
     [SerializeField] private ParticleSystem levelCompletePS;
     [SerializeField] private ParticleSystem levelFailPS;
+
+
+
+    [SerializeField] private StartCell startCell;
+    [SerializeField] private Character[] characters;
+
     [HideInInspector] public UnityEvent OnLevelComplete;
     [HideInInspector] public UnityEvent OnLevelFailed;
+
+    private int losersCounter = 0;
 
     private void Start()
     {
         UIEvents.UpdateLevelProgressBar?.Invoke(0.0f);
         UIEvents.ChangeLevelText?.Invoke($"LEVEL {DataManager.Instance.mainData.LevelNumber + 1}");
+        GlobalEvents.CharacterGameOver.AddListener(CharacterLose);
 
         for (int i = 0; i < DataManager.Instance.mainData.CharactersNum; i++)
         {
             GlobalEvents.AddMoney.Invoke(i, DataManager.Instance.balanceData.StartMoney);
+            startCell.OnCharacterEnteredCell(characters[i]);
             //DataManager.Instance.levelData.SetCurrentCellForCharacter(i, startCell);
         }
+
+        CameraController.Instance.MoveToAllLevelView();
+        CoroutineActions.ExecuteAction(1.5f, () => { CameraController.Instance.MoveToPlayerView(); });
     }
 
     private void LevelComplete()
@@ -34,7 +47,7 @@ public class Level : MonoBehaviour
         });
         CoroutineActions.ExecuteAction(3.0f, () =>
         {
-            GlobalEvents.OnLevelComplete?.Invoke(DataManager.Instance.mainData.LevelNumber);
+            GlobalEvents.OnLevelComplete?.Invoke();
         });
     }
 
@@ -50,5 +63,17 @@ public class Level : MonoBehaviour
         {
             GlobalEvents.OnLevelFailed?.Invoke();
         });
+    }
+
+    private void CharacterLose(int _characterNum)
+    {
+        if (_characterNum == DataManager.Instance.mainData.RealPlayerNum)
+            LevelFailed();
+        else
+        {
+            losersCounter++;
+            if (losersCounter >= DataManager.Instance.mainData.CharactersNum - 1)
+                LevelComplete();
+        }
     }
 }

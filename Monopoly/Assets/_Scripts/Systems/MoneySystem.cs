@@ -32,5 +32,13 @@ public class MoneySystem : BaseSystem
 
         DataManager.Instance.levelData.AddMoneyForCharacter(_characterNum, _amount);
         GlobalEvents.MoneyAdded?.Invoke(_characterNum, _amount);
+        CheckGameOver(_characterNum);
+    }
+
+    private void CheckGameOver(int _characterNum)
+    {
+        if (DataManager.Instance.levelData.GetCharacterMoney(_characterNum) < 0)
+            GlobalEvents.CharacterGameOver.Invoke(_characterNum);
+
     }
 }

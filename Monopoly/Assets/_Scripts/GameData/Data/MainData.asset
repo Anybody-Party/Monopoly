@@ -15,5 +15,8 @@ MonoBehaviour:
   LevelNumber: 0
   RealPlayerNum: 0
   CharactersNum: 2
+  CharacterCellNames:
+  - YOUR
+  - JOE'S
   TutorialTapToFixCompleted: 0
   TutorialTapOnTimeCompleted: 0

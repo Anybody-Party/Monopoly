@@ -9,6 +9,10 @@ public class CameraController : Singleton<CameraController>
     [HideInInspector] public Vector3 defaultPosition;
     [HideInInspector] public Quaternion defaultRotation;
     [SerializeField] private CameraShake cameraShake;
+
+    [SerializeField] private Transform allLevelViewPoint;
+    [SerializeField] private Transform playerViewPoint;
+
     public bool isAlwaysMoving = true;
     public float smooth = 1f;
     public float reachDistance = 0.05f;
@@ -69,6 +73,16 @@ public class CameraController : Singleton<CameraController>
     {
         transform.position = view.position;
         defaultPosition = view.position;
+    }
+
+    public void MoveToAllLevelView()
+    {
+        SetAndMoveToTarget(allLevelViewPoint, true);
+    }
+
+    public void MoveToPlayerView()
+    {
+        SetAndMoveToTarget(playerViewPoint);
     }
 
     public void MoveAtTarget()

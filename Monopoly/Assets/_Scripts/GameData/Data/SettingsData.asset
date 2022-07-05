@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cf4c46f4f1ad044e9060f908574c768, type: 3}
   m_Name: SettingsData
   m_EditorClassIdentifier: 
-  IsVibrationOn: 0
+  IsVibrationOn: 1
+  MoneyPoolSize: 100
+  StackOffsetX: 0.25
+  StackOffsetY: 0.1
+  StackOffsetZ: -0.25

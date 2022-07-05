@@ -8,9 +8,9 @@ public class SettingsData : BaseData
     public bool IsVibrationOn;
     public int MoneyPoolSize;
 
-    public int StackOffsetX;
-    public int StackOffsetY;
-    public int StackOffsetZ;
+    public float StackOffsetX;
+    public float StackOffsetY;
+    public float StackOffsetZ;
 
     public override void ResetData()
     {

@@ -16,14 +16,11 @@ public static class GlobalEvents
 
     //Level
     public static UnityEvent<int> OnLevelStart = new UnityEvent<int>();
-    public static UnityEvent<int> OnLevelComplete = new UnityEvent<int>();
+    public static UnityEvent OnLevelComplete = new UnityEvent();
     public static UnityEvent OnLevelFailed = new UnityEvent();
 
     //Cells
     public static UnityEvent<BuyableCell> BuyCell = new UnityEvent<BuyableCell>();
     public static UnityEvent<int> CharacterGameOver = new UnityEvent<int>(); // charNum
-
-    //CharactersSetup
-    public static UnityEvent<int, int> SetupCharacters = new UnityEvent<int, int>(); // numbers of characters, start money
 
 }

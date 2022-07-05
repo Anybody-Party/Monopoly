@@ -20,10 +20,6 @@ public class EntryPoint : Singleton<EntryPoint>
         new VibrationSystem();
         new LeanTouchSystem();
         new CellBuySystem();
-
-        //Alanytics
-        new LevelFinishAnalyticsSender();
-        new LevelFailAnalyticsSender();
     }
 
     protected override void Initialize()

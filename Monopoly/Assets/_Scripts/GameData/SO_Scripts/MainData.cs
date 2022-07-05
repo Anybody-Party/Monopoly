@@ -10,6 +10,7 @@ public class MainData : BaseData
     public int LevelNumber;
     public int RealPlayerNum;
     public int CharactersNum;
+    public string[] CharacterCellNames;
 
     public bool TutorialTapToFixCompleted;
     public bool TutorialTapOnTimeCompleted;

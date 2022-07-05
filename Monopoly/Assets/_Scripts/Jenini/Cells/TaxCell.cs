@@ -8,6 +8,7 @@ public class TaxCell : BaseCell
     {
         base.OnCharacterEnteredCell(character);
         character.WithdrawMoney(DataManager.Instance.balanceData.Tax);
+        cellMoneyStack.TakeMoneyFromCharacterAtCell(character, DataManager.Instance.balanceData.Tax / 100);
     }
 
     public override void OnCharacterCrossCell(Character character)

@@ -16,7 +16,7 @@ public class LevelManager : Singleton<LevelManager>
     protected override void Initialize() //asdsad
     {
         GlobalEvents.OnLevelFailed.AddListener(LevelFailed);
-        GlobalEvents.OnLevelComplete.AddListener((x) => LevelComplete());
+        GlobalEvents.OnLevelComplete.AddListener(LevelComplete);
 
         UIEvents.LevelCompleteGetRewardButtonTap.AddListener(CreateLevel);
         UIEvents.CloseLevelCompletePanelButtonTap.AddListener(CreateLevel);
@@ -25,8 +25,8 @@ public class LevelManager : Singleton<LevelManager>
 
     private void LevelComplete()
     {
-        DataManager.Instance.mainData.LevelNumber++;
         AnalyticManager.Instance.LogEvent_OnLevelFinish();
+        DataManager.Instance.mainData.LevelNumber++;
         UIEvents.LevelCompletePanelShow?.Invoke(true);
         //GlobalEvents.OnLevelComplete?.Invoke(DataManager.Instance.mainData.LevelNumber);
     }

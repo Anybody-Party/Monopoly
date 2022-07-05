@@ -12,5 +12,6 @@ public class StartCell : BaseCell
     public override void OnCharacterCrossCell(Character character)
     {
         character.GiveMoney(DataManager.Instance.balanceData.RewardForCompleteLoop);
+        cellMoneyStack.GiveMoneyToCharacterAtCell(character, DataManager.Instance.balanceData.RewardForCompleteLoop / 100);
     }
 }

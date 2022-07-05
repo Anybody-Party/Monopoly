@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public abstract class BaseCell : MonoBehaviour
@@ -7,7 +8,9 @@ public abstract class BaseCell : MonoBehaviour
     [SerializeField] private BaseCell _previousCell;
     [SerializeField] private BaseCell _nextCell;
     [SerializeField] protected Character _characterOnCell;
-    
+    [SerializeField] protected CellMoneyStack cellMoneyStack;
+    [SerializeField] protected TextMeshProUGUI textOnCell;
+
     public Transform GetCharacterPoint(int _characterNum) => _characterPoints[_characterNum];
 
     public void Init(BaseCell previousCell, BaseCell nextCell)

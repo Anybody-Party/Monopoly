@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class TaxCell : BaseCell
 {
-    [SerializeField] private float _minTax;
-    [SerializeField] private float _maxTax;
-    
     public override void OnCharacterEnteredCell(Character character)
+    {
+        base.OnCharacterEnteredCell(character);
+        character.WithdrawMoney(DataManager.Instance.balanceData.Tax);
+    }
+
+    public override void OnCharacterCrossCell(Character character)
     {
         
     }

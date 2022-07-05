@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using UnityEngine;
 
 public class Dices : MonoBehaviour
@@ -13,32 +14,25 @@ public class Dices : MonoBehaviour
     private void Awake()
     {
         foreach (var cube in _cubes)
-        {
             cube.Init(this);
-        }
     }
 
-    [ContextMenu("StartRoll")]
-    public void StartRoll()
+    internal void StartRoll()
     {
         Rolling = true;
+        transform.DOLocalJump(transform.localPosition, 3.0f, 1, DataManager.Instance.balanceData.RollingTime).SetEase(Ease.InCubic);
         foreach (var cube in _cubes)
-        {
             cube.StartRoll();
-        }
     }
 
-    [ContextMenu("StopRoll")]
-    public void StopRoll()
+    internal void StopRoll()
     {
         Rolling = false;
         foreach (var cube in _cubes)
-        {
             cube.StopRoll();
-        }
     }
 
-    public int GetCubesValue()
+    internal int GetCubesValue()
     {
         return _resultMode switch
         {

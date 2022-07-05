@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: Hexagon
   m_EditorClassIdentifier: 
   Sides:
-  - Rotation: {x: 0, y: 0, z: 180}
+  - Rotation: {x: 90, y: 0, z: 180}
     Value: 1
-  - Rotation: {x: 0, y: 90, z: 180}
+  - Rotation: {x: 180, y: 0, z: 90}
     Value: 2
-  - Rotation: {x: 270, y: 0, z: 0}
+  - Rotation: {x: 180, y: 0, z: 180}
     Value: 3
-  - Rotation: {x: 270, y: 179.99998, z: 0}
+  - Rotation: {x: 0, y: 90, z: 180}
     Value: 4
-  - Rotation: {x: 270, y: 90, z: 0}
+  - Rotation: {x: 180, y: 0, z: 270}
     Value: 5
-  - Rotation: {x: 0, y: 180.00002, z: 270}
+  - Rotation: {x: 270, y: 0, z: 180}
     Value: 6

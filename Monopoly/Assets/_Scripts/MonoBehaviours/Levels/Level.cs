@@ -16,6 +16,12 @@ public class Level : MonoBehaviour
     {
         UIEvents.UpdateLevelProgressBar?.Invoke(0.0f);
         UIEvents.ChangeLevelText?.Invoke($"LEVEL {DataManager.Instance.mainData.LevelNumber + 1}");
+
+        for (int i = 0; i < DataManager.Instance.mainData.CharactersNum; i++)
+        {
+            GlobalEvents.AddMoney.Invoke(i, DataManager.Instance.balanceData.StartMoney);
+            //DataManager.Instance.levelData.SetCurrentCellForCharacter(i, startCell);
+        }
     }
 
     private void LevelComplete()

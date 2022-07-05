@@ -6,26 +6,34 @@ public class BuyableCell : BaseCell
 {
     [SerializeField] private int _cost;
     [SerializeField] private MeshRenderer _coloredCellPart;
+    private Color _defaultColor;
     private Character _owner;
-    private int _money;
+    private int _moneyAtCell = 0;
 
     public int Cost => _cost;
 
-    private void SellOut(Character owner)
+    private void Start()
     {
-        _owner = owner;
+        GlobalEvents.CharacterGameOver.AddListener(GameOverReset);
+        _defaultColor = _coloredCellPart.material.color;
+    }
+
+    public void SellOut()
+    {
+        _owner = _characterOnCell;
         Paint();
         _owner.Buy(this);
     }
 
     private void TakeTax(Character character)
     {
-        // take money from character
+        character.WithdrawMoney(_cost * 2);
+        _moneyAtCell += _cost * 2;
     }
 
-    private void GiveMoney()
+    private void OwnerTakeMoney()
     {
-        // give _money to owner
+        _owner.GiveMoney(_moneyAtCell);
     }
 
     private void Paint()
@@ -35,11 +43,29 @@ public class BuyableCell : BaseCell
 
     public override void OnCharacterEnteredCell(Character character)
     {
+        base.OnCharacterEnteredCell(character);
+
         if (_owner == null)
-            SellOut(character);
+            UIEvents.CellPanelShow.Invoke(true, this);
         else if (character != _owner)
             TakeTax(character);
         else
-            GiveMoney();
+            OwnerTakeMoney();
+    }
+
+    public override void OnCharacterCrossCell(Character character)
+    {
+        if (character == _owner)
+            OwnerTakeMoney();
+    }
+
+    private void GameOverReset(int _characterNum)
+    {
+        if (_owner.characterNum == _characterNum)
+        {
+            _coloredCellPart.material.color = _defaultColor;
+            _owner = null;
+            _moneyAtCell = 0;
+        }
     }
 }

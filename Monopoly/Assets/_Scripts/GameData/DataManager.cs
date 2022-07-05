@@ -10,6 +10,7 @@ public class DataManager : Singleton<DataManager>
     [SerializeField] public MainData mainData;
     [SerializeField] public BalanceData balanceData;
     [SerializeField] public SettingsData settingsData;
+    [SerializeField] public LevelData levelData;
 
     protected override void Initialize()
     {
@@ -33,6 +34,7 @@ public class DataManager : Singleton<DataManager>
     public void ResetData()
     {
         mainData.ResetData();
+        levelData.ResetData();
     }
 
 #if UNITY_EDITOR
@@ -48,15 +50,21 @@ public class DataManager : Singleton<DataManager>
     private void OnApplicationQuit()
     {
         SaveData();
-#if UNITY_EDITOR
-        //DeleteAllGameData(); // TODO: REMOVE
-#endif
+        DeleteGameData();
     }
 
     private void OnApplicationPause(bool pause)
     {
         if (pause)
             SaveData();
+    }
+
+    private void DeleteGameData()
+    {
+#if UNITY_EDITOR
+        ResetData();
+        DeleteAllGameData(); // TODO: REMOVE
+#endif
     }
 }
 

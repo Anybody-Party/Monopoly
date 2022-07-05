@@ -129,9 +129,7 @@ public class Utility : MonoBehaviour
         for (int i = a.Length - 1; i > 0; i--)
         {
             int j = rand.Next(0, i + 1);
-            T tmp = a[i];
-            a[i] = a[j];
-            a[j] = tmp;
+            (a[i], a[j]) = (a[j], a[i]);
         }
     }
 

@@ -19,6 +19,7 @@ public class EntryPoint : Singleton<EntryPoint>
         new LevelTimerSystem();
         new VibrationSystem();
         new LeanTouchSystem();
+        new CellBuySystem();
 
         //Alanytics
         new LevelFinishAnalyticsSender();

@@ -43,4 +43,14 @@ public static class UIEvents
     //Tutorial
     public static UnityEvent<bool> TutorialTapToFixTextShow = new UnityEvent<bool>();
     public static UnityEvent<bool> TutorialTapOnTimeTextShow = new UnityEvent<bool>();
+
+    //CellPanel
+    public static UnityEvent<bool, BaseCell> CellPanelShow = new UnityEvent<bool, BaseCell>();
+    public static UnityEvent<string> ChangeCellPanelText = new UnityEvent<string>();
+    public static UnityEvent BuyCellPanelButtonTap = new UnityEvent();
+    public static UnityEvent NoThanksCellPanelButtonTap = new UnityEvent();
+
+    //LeaderboardPanel
+    public static UnityEvent<bool> LeaderboardPanelShow = new UnityEvent<bool>();
+    public static UnityEvent<int, string> UpdateLeaderboardTexts = new UnityEvent<int, string>(); // character num, text
 }

@@ -13,7 +13,8 @@ public class Dice : MonoBehaviour
     [SerializeField] private CubeSides _sides;
     [SerializeField] private bool _useVisual;
 
-    [SerializeField] [Condition(nameof(_useVisual))]
+    [SerializeField]
+    [Condition(nameof(_useVisual))]
     private DiceVisual _visual;
 
     private CoroutineObject _rollingRoutine;
@@ -38,14 +39,18 @@ public class Dice : MonoBehaviour
     private IEnumerator RollingRoutine()
     {
         var showTime = 1 / _valuesPerSecondSpeed;
-        var delay = new WaitForSeconds(showTime);
-        while (_rollingRoutine.Owner.enabled)
-        {
-            CurrentSide = GetRandomSideExceptCurrent();
-            if (_useVisual)
-                _visual.ShowSide(CurrentSide, showTime);
-            yield return delay;
-        }
+        CurrentSide = GetRandomSideExceptCurrent();
+        if (_useVisual)
+            _visual.ShowSide(CurrentSide, showTime);
+        yield return null;
+        //var delay = new WaitForSeconds(showTime);
+        //while (_rollingRoutine.Owner.enabled)
+        //{
+        //    CurrentSide = GetRandomSideExceptCurrent();
+        //    if (_useVisual)
+        //        _visual.ShowSide(CurrentSide, showTime);
+        //    yield return delay;
+        //}
     }
 
     private CubeSide GetRandomSideExceptCurrent()

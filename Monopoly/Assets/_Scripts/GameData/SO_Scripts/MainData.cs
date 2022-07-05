@@ -8,8 +8,8 @@ using UnityEngine;
 public class MainData : BaseData
 {
     public int LevelNumber;
-    public List<int> Money;
     public int RealPlayerNum;
+    public int CharactersNum;
 
     public bool TutorialTapToFixCompleted;
     public bool TutorialTapOnTimeCompleted;

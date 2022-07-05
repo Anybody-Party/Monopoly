@@ -1,12 +1,14 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class BaseCell : MonoBehaviour
 {
-    [SerializeField] private Transform _characterPoint;
+    [SerializeField] private List<Transform> _characterPoints;
     [SerializeField] private BaseCell _previousCell;
     [SerializeField] private BaseCell _nextCell;
+    [SerializeField] protected Character _characterOnCell;
     
-    public Transform CharacterPoint => _characterPoint;
+    public Transform GetCharacterPoint(int _characterNum) => _characterPoints[_characterNum];
 
     public void Init(BaseCell previousCell, BaseCell nextCell)
     {
@@ -24,5 +26,11 @@ public abstract class BaseCell : MonoBehaviour
         return steps == 1 ? _previousCell : _previousCell.GetBackCell(steps - 1);
     }
     
-    public abstract void OnCharacterEnteredCell(Character character);
+    public virtual void OnCharacterEnteredCell(Character character)
+    {
+        DataManager.Instance.levelData.SetCurrentCellForCharacter(character, this);
+        _characterOnCell = character;
+    }
+
+    public abstract void OnCharacterCrossCell(Character character);
 }

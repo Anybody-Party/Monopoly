@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MainData
   m_EditorClassIdentifier: 
   LevelNumber: 0
-  Money: 0
-  LevelAccuracy: 0
+  RealPlayerNum: 0
+  CharactersNum: 2
   TutorialTapToFixCompleted: 0
   TutorialTapOnTimeCompleted: 0

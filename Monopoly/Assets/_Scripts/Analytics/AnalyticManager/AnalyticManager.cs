@@ -54,7 +54,7 @@ public class AnalyticManager : MonoBehaviour
     {
         Dictionary<string, object> _params = new Dictionary<string, object>();
         _params.Add("level_number", DataManager.Instance.mainData.LevelNumber);
-        _params.Add("money", DataManager.Instance.mainData.Money);
+        _params.Add("money", DataManager.Instance.levelData.GetPlayerMoney());
         //_params.Add("time", GameDatabase.Instance.gameData.CurrentPicture.DonePaintTimeInSeconds);
 
 

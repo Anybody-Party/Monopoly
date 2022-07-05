@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03ad27245386c2644b815afa5797d5f0, type: 3}
   m_Name: BalanceData
   m_EditorClassIdentifier: 
-  MoneyMaxCap: 0
-  BaseRewardForLevel: 0
-  MovingSpeed: 0
-  RotatingSmoothSpeed: 0
-  RotatingStepSpeed: 0
-  PickUpTime: 0
-  RotatingDegree: 0
-  PermissibleErrorInAccuracy: 0
-  ThresholdForPassingLevel: 0
+  MoneyMaxCap: 10000
+  BaseRewardForLevel: 100
+  StartMoney: 1000
+  RollingTime: 0.5
+  RewardForCompleteLoop: 1000
+  JailStopTime: 5
+  Tax: 200
+  GoBackSteps: 3
+  JumpToTileTime: 0.5

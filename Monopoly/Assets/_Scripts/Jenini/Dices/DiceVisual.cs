@@ -1,12 +1,13 @@
 using System;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 [Serializable]
 public class DiceVisual
 {
-    [SerializeField] private Text _textValue;
+    [SerializeField] private TextMeshPro _textValue;
     [SerializeField] private Transform _model;
 
     public void ShowSide(CubeSide cubeSide, float duration)

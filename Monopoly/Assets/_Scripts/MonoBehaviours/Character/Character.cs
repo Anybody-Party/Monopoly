@@ -19,6 +19,7 @@ public class Character : MonoBehaviour
     [SerializeField] private TextMeshPro minusText;
 
     private BaseCell _currentCell;
+    private CharacterAnimator characterAnimator;
     private bool isCanRoll;
 
     public Color PaintingColor => _paintingColor;
@@ -26,6 +27,7 @@ public class Character : MonoBehaviour
     private void Awake()
     {
         isCanRoll = true;
+        characterAnimator = GetComponent<CharacterAnimator>();
         if (isRealPlayer)
             UIEvents.RollDiceButtonTap.AddListener(TryRollingDices);
     }
@@ -45,6 +47,7 @@ public class Character : MonoBehaviour
         GlobalEvents.AddMoney.Invoke(characterNum, -money);
         minusText.text = $"-{money}$";
         minusTextAnimator.SetTrigger("IsShow");
+        characterAnimator.Lose();
     }
 
     public void GiveMoney(int money)
@@ -52,6 +55,7 @@ public class Character : MonoBehaviour
         GlobalEvents.AddMoney.Invoke(characterNum, money);
         plusText.text = $"+{money}$";
         plusTextAnimator.SetTrigger("IsShow");
+        characterAnimator.Won();
     }
 
     private void TryRollingDices()
@@ -82,6 +86,7 @@ public class Character : MonoBehaviour
         transform.DOMove(targetPosition, DataManager.Instance.balanceData.JumpToTileTime);
         yield return new WaitForSeconds(DataManager.Instance.balanceData.JumpToTileTime);
         stepsCounter--;
+        characterAnimator.Jump();
         if (stepsCounter > 0)
         {
             _currentCell.OnCharacterCrossCell(this);

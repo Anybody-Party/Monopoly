@@ -4,19 +4,27 @@ using UnityEngine;
 
 public class CharacterAnimator : MonoBehaviour
 {
-    private Animator animator;
+    [SerializeField] private Animator animator;
+    private string IsLose = "IsLose";
+    private string IsWon = "IsWon";
+    private string IsJump = "IsJump";
 
     private void Start()
     {
-        animator = GetComponentInChildren<Animator>();
-
-        //PlayerController playerController = GetComponent<PlayerController>();
-        //playerController.Walking = PlayerController_Walking;
     }
 
-    private void PlayerController_Walking(float playerSpeed)
+    public void Lose()
     {
-        animator.SetBool("IsWalking", playerSpeed > 0);
-        animator.SetFloat("WalkingSpeed", playerSpeed);
+        animator.SetTrigger(IsLose);
+    }
+
+    public void Won()
+    {
+        animator.SetTrigger(IsWon);
+    }
+
+    public void Jump()
+    {
+        animator.SetTrigger(IsJump);
     }
 }

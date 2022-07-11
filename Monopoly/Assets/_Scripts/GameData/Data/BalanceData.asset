@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MoneyMaxCap: 10000
   BaseRewardForLevel: 100
-  StartMoney: 1000
+  StartMoney: 500
   RollingTime: 0.5
-  RewardForCompleteLoop: 1000
+  RewardForCompleteLoop: 500
   JailStopTime: 5
-  Tax: 200
-  GoBackSteps: 3
+  Tax: 300
+  RewardForRewardCell: 300
+  GoBackSteps: 5
   JumpToTileTime: 0.5

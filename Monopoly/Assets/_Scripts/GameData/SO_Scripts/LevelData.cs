@@ -8,6 +8,7 @@ public class LevelData : BaseData
 {
     [SerializeField] private List<int> Moneys;
     [SerializeField] private List<BaseCell> CurrentCells;
+    [SerializeField] public int LevelTimer;
 
     public override void ResetData()
     {
@@ -15,6 +16,8 @@ public class LevelData : BaseData
             Moneys[i] = 0;
         for (int i = 0; i < CurrentCells.Count; i++)
             CurrentCells[i] = null;
+
+        LevelTimer = 0;
     }
 
     public void SetCurrentCellForCharacter(Character _character, BaseCell _cell)

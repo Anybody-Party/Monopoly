@@ -8,7 +8,7 @@ public abstract class BaseCell : MonoBehaviour
     [SerializeField] private BaseCell _previousCell;
     [SerializeField] private BaseCell _nextCell;
     [SerializeField] protected Character _characterOnCell;
-    [SerializeField] protected CellMoneyStack cellMoneyStack;
+    [SerializeField] public CellMoneyStack cellMoneyStack;
     [SerializeField] protected TextMeshProUGUI textOnCell;
 
     public Transform GetCharacterPoint(int _characterNum) => _characterPoints[_characterNum];
@@ -26,14 +26,20 @@ public abstract class BaseCell : MonoBehaviour
 
     public BaseCell GetBackCell(int steps)
     {
-        return steps == 1 ? _previousCell : _previousCell.GetBackCell(steps - 1);
+        return steps == -1 ? _previousCell : _previousCell.GetBackCell(steps - 1);
     }
-    
+
     public virtual void OnCharacterEnteredCell(Character character)
     {
         DataManager.Instance.levelData.SetCurrentCellForCharacter(character, this);
-        _characterOnCell = character;
+        if (_characterOnCell == null)
+            _characterOnCell = character;
     }
 
     public abstract void OnCharacterCrossCell(Character character);
+
+    public virtual void OnCharacterGoFromCell(Character character)
+    {
+        _characterOnCell = null;
+    }
 }

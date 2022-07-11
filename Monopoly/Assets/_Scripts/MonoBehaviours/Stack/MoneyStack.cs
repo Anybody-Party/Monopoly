@@ -6,19 +6,16 @@ using DG.Tweening;
 
 public class MoneyStack : MonoBehaviour
 {
+    [SerializeField] private bool isRealPlayer = false;
+    [SerializeField] private Transform stackingParent;
+    [SerializeField] private GameObject stackGridPrefab;
     private List<StackableItem> stackedItems = new List<StackableItem>();
     private List<Transform> stackGrid = new List<Transform>();
-    public Transform stackingParent;
-    public GameObject stackGridPrefab;
 
-    private int stackRows = 8;
-    private int stackColumns = 3;
+    private int stackRows = 2;
+    private int stackColumns = 1;
     private int itemsInColumn = 15;
     private int stackLimit;
-
-    private float pickUpTimer = 0.3f;
-    private float pickUpTime = 0.3f;
-    private float resetTimer;
 
     private void Awake()
     {
@@ -46,28 +43,16 @@ public class MoneyStack : MonoBehaviour
     public void AddItem(StackableItem _item)
     {
         stackedItems.Add(_item);
-        pickUpTimer -= 0.02f;
-        if (pickUpTimer <= 0.02f)
-            pickUpTimer = 0.02f;
-        resetTimer = 1.0f;
         _item.transform.SetParent(stackingParent);
-        _item.transform.DOScale(new Vector3(0.2f, 0.02f, 0.2f), pickUpTimer).ChangeStartValue(Vector3.zero).SetEase(Ease.OutCubic);
-        _item.transform.DOLocalMove(stackGrid[GetItemsCount()].localPosition, pickUpTimer).SetEase(Ease.InOutQuart).OnComplete(() =>
+        _item.transform.DOScale(Vector3.one, 0.1f).ChangeStartValue(Vector3.zero).SetEase(Ease.OutCubic);
+        _item.transform.DOLocalRotate(Vector3.zero, 0.1f).SetEase(Ease.OutCubic);
+        _item.transform.DOLocalMove(stackGrid[GetItemsCount()].localPosition, 0.1f).SetEase(Ease.InOutQuart).OnComplete(() =>
         {
-            _item.transform.DOPunchScale(new Vector3(0.2f, 0.02f, 0.2f), 0.1f);
+            _item.transform.DOPunchScale(Vector3.one * 1.2f, 0.1f);
             _item.transform.SetParent(stackGrid[GetItemsCount()], true);
-            MoreMountains.NiceVibrations.MMVibrationManager.Haptic(MoreMountains.NiceVibrations.HapticTypes.LightImpact);
+            if (isRealPlayer)
+                MoreMountains.NiceVibrations.MMVibrationManager.Haptic(MoreMountains.NiceVibrations.HapticTypes.LightImpact);
         });
-    }
-
-    private void Update()
-    {
-        if (resetTimer > 0)
-        {
-            if (resetTimer <= 0)
-                pickUpTimer = pickUpTime;
-            resetTimer -= Time.deltaTime;
-        }
     }
 
     public StackableItem GetLastItem()

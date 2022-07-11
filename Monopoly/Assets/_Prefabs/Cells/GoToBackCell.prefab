@@ -161,7 +161,7 @@ MonoBehaviour:
   _nextCell: {fileID: 0}
   _characterOnCell: {fileID: 0}
   cellMoneyStack: {fileID: 6648612759559771239}
-  textOnCell: {fileID: 0}
+  textOnCell: {fileID: 6935783653394568235}
 --- !u!1 &1530280011017882325
 GameObject:
   m_ObjectHideFlags: 0
@@ -771,6 +771,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stackingParent: {fileID: 6398223174818781563}
   stackGridPrefab: {fileID: 9167609050075925714, guid: 1b54304437f49b84f8ed7af6199ec446, type: 3}
+  isRunning: 0
 --- !u!1 &6477817135131507749
 GameObject:
   m_ObjectHideFlags: 0

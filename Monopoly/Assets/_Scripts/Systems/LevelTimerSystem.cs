@@ -18,6 +18,7 @@ public class LevelTimerSystem : BaseSystem
     private IEnumerator LevelTimerUpdate()
     {
         yield return new WaitForSeconds(1.0f);
+        DataManager.Instance.levelData.LevelTimer += 1;
         CoroutineLauncher.Start(LevelTimerUpdate());
     }
 }

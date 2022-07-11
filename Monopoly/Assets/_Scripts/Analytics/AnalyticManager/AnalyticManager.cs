@@ -1,6 +1,6 @@
 ﻿//using AppsFlyerSDK;
 //using Firebase.Analytics;
-using GameAnalyticsSDK;
+//using GameAnalyticsSDK;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -38,28 +38,13 @@ public class AnalyticManager : MonoBehaviour
 
     private void Initialize()
     {
-        GameAnalytics.Initialize();
+        //GameAnalytics.Initialize();
     }
 
     public void LogEvent(string _event)
     {
         MyFacebook.Instance.LogEvent(_event);
-        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, _event);
-        //FirebaseAnalytics.LogEvent(_event, "level", Stats.getInstanse.lvl);
-        //AppsFlyer.sendEvent(_event, _params);
-        //MyTenjin.Instance.instance.SendEvent(_event);
-    }
-
-    public void LogEventWithAllData(string _event)
-    {
-        Dictionary<string, object> _params = new Dictionary<string, object>();
-        _params.Add("level_number", DataManager.Instance.mainData.LevelNumber);
-        _params.Add("money", DataManager.Instance.levelData.GetPlayerMoney());
-        //_params.Add("time", GameDatabase.Instance.gameData.CurrentPicture.DonePaintTimeInSeconds);
-
-
-        MyFacebook.Instance.LogEvent(_event, _params);
-        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, _event, _params);
+        //GameAnalyticsSDK.GameAnalytics.NewProgressionEvent(GameAnalyticsSDK.GAProgressionStatus.Complete, _event);
         //FirebaseAnalytics.LogEvent(_event, "level", Stats.getInstanse.lvl);
         //AppsFlyer.sendEvent(_event, _params);
         //MyTenjin.Instance.instance.SendEvent(_event);
@@ -69,48 +54,68 @@ public class AnalyticManager : MonoBehaviour
     {
         Dictionary<string, object> _params = new Dictionary<string, object>();
         _params.Add("level_number", DataManager.Instance.mainData.LevelNumber);
+        _params.Add("level_name", $"0{DataManager.Instance.mainData.LevelNumber}_name");
+        _params.Add("level_count", DataManager.Instance.mainData.LevelNumber);
+        _params.Add("level_diff", "easy");
+        _params.Add("level_loop", 1);
+        _params.Add("level_random", 0);
+        _params.Add("level_type", "normal");
+        _params.Add("game_mode", "classic");
 
         MyFacebook.Instance.LogEvent("level_start", _params);
-        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Start, "level_start", DataManager.Instance.mainData.LevelNumber);
-        //AppMetrica.Instance.ReportEvent("level_start", _params);
-        //AppMetrica.Instance.SendEventsBuffer();
+        AppMetrica.Instance.ReportEvent("level_start", _params);
+        AppMetrica.Instance.SendEventsBuffer();
     }
 
     public void LogEvent_OnLevelFinish()
     {
         Dictionary<string, object> _params = new Dictionary<string, object>();
         _params.Add("level_number", DataManager.Instance.mainData.LevelNumber);
+        _params.Add("level_name", $"0{DataManager.Instance.mainData.LevelNumber}_name");
+        _params.Add("level_count", DataManager.Instance.mainData.LevelNumber);
+        _params.Add("level_diff", "easy");
+        _params.Add("level_loop", 1);
+        _params.Add("level_random", 0);
+        _params.Add("level_type", "normal");
+        _params.Add("game_mode", "classic");
+        _params.Add("result", "win");
+        _params.Add("time", DataManager.Instance.levelData.LevelTimer);
+        _params.Add("progress", "100");
+        _params.Add("continue", "0");
 
         MyFacebook.Instance.LogEvent("level_finish", _params);
-        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Complete, "level_finish", DataManager.Instance.mainData.LevelNumber);
-        //AppMetrica.Instance.ReportEvent("level_finish", _params);
-        //AppMetrica.Instance.SendEventsBuffer();
+        AppMetrica.Instance.ReportEvent("level_finish", _params);
+        AppMetrica.Instance.SendEventsBuffer();
     }
 
     public void LogEvent_OnLevelFailed()
     {
         Dictionary<string, object> _params = new Dictionary<string, object>();
         _params.Add("level_number", DataManager.Instance.mainData.LevelNumber);
+        _params.Add("level_name", $"0{DataManager.Instance.mainData.LevelNumber}_name");
+        _params.Add("level_count", DataManager.Instance.mainData.LevelNumber);
+        _params.Add("level_diff", "easy");
+        _params.Add("level_loop", 1);
+        _params.Add("level_random", 0);
+        _params.Add("level_type", "normal");
+        _params.Add("game_mode", "classic");
+        _params.Add("result", "lose");
+        _params.Add("time", DataManager.Instance.levelData.LevelTimer);
+        _params.Add("progress", "100");
+        _params.Add("continue", "0");
 
-        MyFacebook.Instance.LogEvent("level_failed", _params);
-        GameAnalytics.NewProgressionEvent(GAProgressionStatus.Fail, "level_failed", DataManager.Instance.mainData.LevelNumber);
-        //AppMetrica.Instance.ReportEvent("level_finish", _params);
-        //AppMetrica.Instance.SendEventsBuffer();
+        MyFacebook.Instance.LogEvent("level_finish", _params);
+        AppMetrica.Instance.ReportEvent("level_finish", _params);
+        AppMetrica.Instance.SendEventsBuffer();
     }
 
     public void LogEvent(string _event, Dictionary<string, object> _params)
     {
-
-    }
-
-    private void OnApplicationQuit()
-    {
-        LogEventWithAllData("game_quit");
-    }
-
-    private void OnApplicationPause(bool pause)
-    {
-        if (pause)
-            LogEventWithAllData("game_quit");
+        MyFacebook.Instance.LogEvent(_event, _params);
+        //GameAnalyticsSDK.GameAnalytics.NewProgressionEvent(GameAnalyticsSDK.GAProgressionStatus.Complete, _event, _param, _value);
+        //FirebaseAnalytics.LogEvent(_event, "level", Stats.getInstanse.lvl);
+        //FirebaseAnalytics.LogEvent(_event, _param, _value);
+        //AppsFlyer.sendEvent(_event, _params);
+        //MyTenjin.Instance.instance.SendEvent(_event, _param);
     }
 }

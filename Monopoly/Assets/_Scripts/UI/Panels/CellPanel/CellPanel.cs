@@ -18,6 +18,6 @@ public class CellPanel : BasePanel
 
     private void UpdateInfo(BaseCell _cell)
     {
-        UIEvents.ChangeCellPanelText?.Invoke($"PRICE: {_cell.GetComponent<BuyableCell>().Cost}$");
+        UIEvents.ChangeCellPanelText?.Invoke($"BUY THIS CELL: {_cell.GetComponent<BuyableCell>().Cost}$");
     }
 }

@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsVibrationOn: 1
   MoneyPoolSize: 100
-  StackOffsetX: 0.25
-  StackOffsetY: 0.1
-  StackOffsetZ: -0.25
+  StackOffsetX: 1.3
+  StackOffsetY: 0.15
+  StackOffsetZ: 1.3

@@ -11,11 +11,6 @@ public class MoneyPool : Singleton<MoneyPool>
 
     protected override void Initialize()
     {
-        
-    }
-
-    private void Start()
-    {
         for (var i = 0; i < DataManager.Instance.settingsData.MoneyPoolSize; i++)
             CreateMoney();
     }
@@ -26,15 +21,13 @@ public class MoneyPool : Singleton<MoneyPool>
         PoolizeItem(_money.GetComponent<StackableItem>());
     }
 
-    public StackableItem UseItem(Vector3 position)
+    public StackableItem UseItem()
     {
         if (moneyPool.Count == 0)
             CreateMoney();
 
         StackableItem item = moneyPool[0];
         moneyPool.Remove(item);
-
-        item.transform.position = position;
 
         item.gameObject.SetActive(true);
         return item;
@@ -47,6 +40,4 @@ public class MoneyPool : Singleton<MoneyPool>
 
         moneyPool.Add(item);
     }
-
-    
 }

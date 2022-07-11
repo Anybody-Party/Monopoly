@@ -13,6 +13,6 @@ public class TapToStartButton : BaseActionButton
     protected override void PerformOnClick()
     {
         MoreMountains.NiceVibrations.MMVibrationManager.Haptic(MoreMountains.NiceVibrations.HapticTypes.LightImpact);
-        UIEvents.RollDiceButtonTap?.Invoke();
+        UIEvents.TapToStartTextShow.Invoke(false);
     }
 }

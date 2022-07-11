@@ -20,6 +20,5 @@ public class LevelFailedRestartButton : BaseActionButton
 
     private void UpdateButtonStatus()
     {
-        //_button.interactable = 
     }
 }

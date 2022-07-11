@@ -138,7 +138,6 @@ public class Utility : MonoBehaviour
         _animator.Rebind();
         _animator.Update(0f);
         _animator.Play("Idle", -1, 0f);
-        _animator.ResetTrigger("IsStop");
     }
 
     public static void ResetRigibodyVelocity(Rigidbody _rigidbody)

@@ -13,6 +13,7 @@ public class BalanceData : BaseData
     public int RewardForCompleteLoop;
     public int JailStopTime;
     public int Tax;
+    public int RewardForRewardCell;
     public int GoBackSteps;
     public float JumpToTileTime;
 

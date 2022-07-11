@@ -391,7 +391,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6138446861925964619}
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 3.53, y: 0.65, z: 1.78}
+  m_LocalPosition: {x: 3.53, y: 0.65, z: -1.21}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7907255450583699385}
@@ -411,6 +411,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stackingParent: {fileID: 3063092271964769095}
   stackGridPrefab: {fileID: 9167609050075925714, guid: 1b54304437f49b84f8ed7af6199ec446, type: 3}
+  isRunning: 0
 --- !u!1 &6494371709204133769
 GameObject:
   m_ObjectHideFlags: 0

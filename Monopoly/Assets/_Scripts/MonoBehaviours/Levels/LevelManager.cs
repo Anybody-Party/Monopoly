@@ -49,12 +49,13 @@ public class LevelManager : Singleton<LevelManager>
         CoroutineActions.ExecuteAction(0.1f, () => { CreateLevel(); });
     }
 
+    [NaughtyAttributes.Button]
     public void CreateLevel()
     {
         CreateLevel(DataManager.Instance.mainData.LevelNumber);
         AnalyticManager.Instance.LogEvent_OnLevelStart();
         GlobalEvents.OnLevelStart?.Invoke(DataManager.Instance.mainData.LevelNumber);
-        Time.timeScale = 1.0f + ((int)(DataManager.Instance.mainData.LevelNumber / 5) * 0.15f);
+        //Time.timeScale = 1.0f + ((int)(DataManager.Instance.mainData.LevelNumber / 5) * 0.15f);
     }
 
     public void CreateLevel(int index, bool _isRestart = false)
@@ -82,31 +83,33 @@ public class LevelManager : Singleton<LevelManager>
         if (currentLevel != null)
             DestroyCurrentLevel();
 
-        if (EditorDatabase.Instance.levelDatas.Count == 0)
-            Debug.LogError("You forgot fill level data?");
-
-        if (isDebug) Debug.Log($"CreateLevel try with id {index} selected id : {currentIndex} max lvl: { EditorDatabase.Instance.levelDatas.Count - 1}");
-
-        if (EditorDatabase.Instance.levelDatas == null || EditorDatabase.Instance.levelDatas.Count < 1)
+        CoroutineActions.ExecuteAction(0.1f, () =>
         {
-            Debug.LogError("levelDatas is empty!");
-            return;
-        }
-        else if (EditorDatabase.Instance.levelDatas.Count <= currentIndex)
-        {
-            Debug.LogError($"levelDatas is out of range db:{EditorDatabase.Instance.levelDatas.Count}, id:{currentIndex}");
-            return;
-        }
-        else if (EditorDatabase.Instance.levelDatas[currentIndex] == null)
-        {
-            Debug.LogError($"levelDatas at index {currentIndex} is null");
-            return;
-        }
+            if (EditorDatabase.Instance.levelDatas.Count == 0)
+                Debug.LogError("You forgot fill level data?");
 
-        lastLevelIndex = currentIndex;
-        GameObject _level = Instantiate(EditorDatabase.Instance.levelDatas[currentIndex], null);
-        currentLevel = _level.GetComponent<Level>();
+            if (isDebug) Debug.Log($"CreateLevel try with id {index} selected id : {currentIndex} max lvl: { EditorDatabase.Instance.levelDatas.Count - 1}");
 
+            if (EditorDatabase.Instance.levelDatas == null || EditorDatabase.Instance.levelDatas.Count < 1)
+            {
+                Debug.LogError("levelDatas is empty!");
+                return;
+            }
+            else if (EditorDatabase.Instance.levelDatas.Count <= currentIndex)
+            {
+                Debug.LogError($"levelDatas is out of range db:{EditorDatabase.Instance.levelDatas.Count}, id:{currentIndex}");
+                return;
+            }
+            else if (EditorDatabase.Instance.levelDatas[currentIndex] == null)
+            {
+                Debug.LogError($"levelDatas at index {currentIndex} is null");
+                return;
+            }
+
+            lastLevelIndex = currentIndex;
+            GameObject _level = Instantiate(EditorDatabase.Instance.levelDatas[currentIndex], null);
+            currentLevel = _level.GetComponent<Level>();
+        });
     }
 
     private bool IsLevelValidLogs(int levelId)

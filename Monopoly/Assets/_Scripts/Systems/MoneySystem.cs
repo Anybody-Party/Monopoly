@@ -20,8 +20,8 @@ public class MoneySystem : BaseSystem
 
     private void AddMoney(int _characterNum, int _amount)
     {
-        if (DataManager.Instance.levelData.GetCharacterMoney(_characterNum) + _amount < 0) // NotEnough
-            return;
+        //if (DataManager.Instance.levelData.GetCharacterMoney(_characterNum) + _amount < 0) // NotEnough
+        //    return;
 
         //if (_amount > 0 && DataManager.Instance.levelData.Money[_playerNum] + _amount > DataManager.Instance.balanceData.MoneyMaxCap) // Max Cap
         //{

@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class GoBackCell : BaseCell
 {
+    private void Awake()
+    {
+        textOnCell.text = $"{DataManager.Instance.balanceData.GoBackSteps}";
+    }
+
     public override void OnCharacterEnteredCell(Character character)
     {
         base.OnCharacterEnteredCell(character);
@@ -12,5 +17,10 @@ public class GoBackCell : BaseCell
 
     public override void OnCharacterCrossCell(Character character)
     {
+    }
+
+    public override void OnCharacterGoFromCell(Character character)
+    {
+        base.OnCharacterGoFromCell(character);
     }
 }

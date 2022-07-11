@@ -10,22 +10,34 @@ public class BuyableCell : BaseCell
     private Color _defaultColor;
     private Character _owner;
     private int _moneyAtCell = 0;
+    private StartCell startCell;
 
     public int Cost => _cost;
 
-    private void Start()
+    private void Awake()
     {
         GlobalEvents.CharacterGameOver.AddListener(GameOverReset);
+        GlobalEvents.StartCellInit.AddListener((x) => { startCell = x; });
         textOnCell.text = $"{_cost}$";
         _defaultColor = _coloredCellPart.material.color;
     }
 
     public void SellOut()
     {
+        if (_owner != null)
+            return;
+
+        if(_characterOnCell == null)
+        {
+            UIEvents.CellPanelShow.Invoke(false, this);
+            return;
+        }
+
         _owner = _characterOnCell;
         textOnCell.text = $"{DataManager.Instance.mainData.CharacterCellNames[_owner.characterNum]}";
         Paint();
         _owner.Buy(this);
+        startCell.cellMoneyStack.TakeMoneyFromCharacterAtCell(_owner, _cost / 100);
     }
 
     private void TakeTax(Character character)
@@ -37,8 +49,12 @@ public class BuyableCell : BaseCell
 
     private void OwnerTakeMoney()
     {
-        _owner.GiveMoney(_moneyAtCell);
-        cellMoneyStack.GiveMoneyToCharacterAtCell(_owner, _moneyAtCell / 100);
+        if (_moneyAtCell > 0)
+        {
+            _owner.GiveMoney(_moneyAtCell);
+            cellMoneyStack.GiveMoneyToCharacterAtCell(_owner, _moneyAtCell / 100);
+            _moneyAtCell = 0;
+        }
     }
 
     private void Paint()
@@ -52,7 +68,10 @@ public class BuyableCell : BaseCell
         base.OnCharacterEnteredCell(character);
 
         if (_owner == null)
-            UIEvents.CellPanelShow.Invoke(true, this);
+        {
+            if (character.isRealPlayer)
+                UIEvents.CellPanelShow.Invoke(true, this);
+        }
         else if (character != _owner)
             TakeTax(character);
         else
@@ -65,15 +84,23 @@ public class BuyableCell : BaseCell
             OwnerTakeMoney();
     }
 
+    public override void OnCharacterGoFromCell(Character character)
+    {
+        base.OnCharacterGoFromCell(character);
+    }
+
     private void GameOverReset(int _characterNum)
     {
-        if (_owner.characterNum == _characterNum)
+        if (_owner != null)
         {
-            _coloredCellPart.material.color = _defaultColor;
-            textOnCell.color = _defaultColor;
-            _owner = null;
-            _moneyAtCell = 0;
-            cellMoneyStack.DeleteAll();
+            if (_owner.characterNum == _characterNum)
+            {
+                _coloredCellPart.material.color = _defaultColor;
+                textOnCell.color = _defaultColor;
+                _owner = null;
+                _moneyAtCell = 0;
+                cellMoneyStack.DeleteAll();
+            }
         }
     }
 }

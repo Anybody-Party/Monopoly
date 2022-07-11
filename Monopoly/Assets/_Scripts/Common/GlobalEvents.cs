@@ -23,4 +23,5 @@ public static class GlobalEvents
     public static UnityEvent<BuyableCell> BuyCell = new UnityEvent<BuyableCell>();
     public static UnityEvent<int> CharacterGameOver = new UnityEvent<int>(); // charNum
 
+    public static UnityEvent<StartCell> StartCellInit = new UnityEvent<StartCell>();
 }

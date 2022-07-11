@@ -13,28 +13,19 @@ public class CellMoneyStack : MonoBehaviour
     private List<Transform> stackGrid = new List<Transform>();
 
     private int stackRows = 3;
-    private int stackColumns = 3;
-    private int itemsInColumn = 15;
+    private int stackColumns = 1;
+    private int itemsInColumn = 20;
     private int stackLimit;
 
-    private float pickUpTimer = 0.3f;
-    private float pickUpTime = 0.3f;
-    private float resetTimer;
+    private int giveMoneyCounter = 0;
+    private int takeMoneyCounter = 0;
 
     private Character characterAtCell;
+    public bool isRunning;
 
-    private void Start()
+    private void Awake()
     {
-        CoroutineActions.ExecuteAction(1.5f, () =>
-        {
-            CreateStackGrid();
-            //for (int i = 0; i < DataManager.Instance.mainData.TeamGeneratedMedals; i++)
-            //{
-            //    StackableItem item = MedalsPool.Instance.UseItem(transform.position);
-            //    item.TeammateMedalGenerate(this);
-            //}
-        });
-
+        CreateStackGrid();
     }
 
     private void CreateStackGrid()
@@ -58,15 +49,12 @@ public class CellMoneyStack : MonoBehaviour
     public void AddItem(StackableItem _item)
     {
         stackedItems.Add(_item);
-        pickUpTimer -= 0.02f;
-        if (pickUpTimer <= 0.02f)
-            pickUpTimer = 0.02f;
-        resetTimer = 1.0f;
         _item.transform.SetParent(stackingParent);
-        _item.transform.DOScale(new Vector3(0.2f, 0.02f, 0.2f), pickUpTimer).ChangeStartValue(Vector3.zero).SetEase(Ease.OutCubic);
-        _item.transform.DOLocalMove(stackGrid[GetItemsCount()].localPosition, pickUpTimer).SetEase(Ease.InOutQuart).OnComplete(() =>
+        _item.transform.DOScale(Vector3.one, 0.1f).ChangeStartValue(Vector3.zero).SetEase(Ease.OutCubic);
+        _item.transform.DOLocalRotate(Vector3.zero, 0.1f).SetEase(Ease.OutCubic);
+        _item.transform.DOLocalMove(stackGrid[GetItemsCount()].localPosition, 0.1f).SetEase(Ease.InOutQuart).OnComplete(() =>
         {
-            _item.transform.DOPunchScale(new Vector3(0.2f, 0.02f, 0.2f), 0.1f);
+            _item.transform.DOPunchScale(Vector3.one * 1.2f, 0.1f);
             _item.transform.SetParent(stackGrid[GetItemsCount()], true);
             MoreMountains.NiceVibrations.MMVibrationManager.Haptic(MoreMountains.NiceVibrations.HapticTypes.LightImpact);
         });
@@ -78,59 +66,65 @@ public class CellMoneyStack : MonoBehaviour
             MoneyPool.Instance.PoolizeItem(stackedItems[i]);
     }
 
-    private void Update()
-    {
-        if (resetTimer > 0)
-        {
-            if (resetTimer <= 0)
-                pickUpTimer = pickUpTime;
-            resetTimer -= Time.deltaTime;
-        }
-    }
-
     private void TryGiveMoneyToCharacter(int _howMuch)
     {
-        for (int i = 0; i < _howMuch; i++)
-        {
-            if (!IsCanGive()) return;
-            //GlobalEvents.AddTeamGeneratedMedals.Invoke(-1);
-            StackableItem lastItem = GetLastItem();
-            RemoveLastItem();
-            if (!lastItem) return;
-            lastItem.transform.parent = null;
-            lastItem.PickUp(characterAtCell.moneyStack);
-            // GlobalEvents.AddMoney.Invoke(1);
-        }
+        giveMoneyCounter = _howMuch;
+        isRunning = true;
+        StartCoroutine(GiveMoneyToCharacter());
+    }
+
+    private IEnumerator GiveMoneyToCharacter()
+    {
+        yield return new WaitForSeconds(0.1f);
+        if (!IsCanGive()) yield break;
+        StackableItem lastItem = GetLastItem();
+        RemoveLastItem();
+        if (!lastItem) yield break;
+        lastItem.transform.parent = null;
+        lastItem.PickUp(characterAtCell.moneyStack);
+
+        giveMoneyCounter--;
+        if (giveMoneyCounter > 0)
+            StartCoroutine(GiveMoneyToCharacter());
+        else
+            isRunning = false;
     }
 
     private void TryTakeMoneyFromCharacter(int _howMuch)
     {
-        for (int i = 0; i < _howMuch; i++)
-        {
-            if (!IsCanTake()) return;
-            var _lastItem = characterAtCell.moneyStack.GetLastItem();
-            characterAtCell.moneyStack.RemoveLastItem();
-            if (!_lastItem) return;
-            _lastItem.transform.parent = null;
-            _lastItem.PickUp(this);
-        }
+        takeMoneyCounter = _howMuch;
+        StartCoroutine(TakeMoneyFromCharacter());
+    }
+
+    private IEnumerator TakeMoneyFromCharacter()
+    {
+        yield return new WaitForSeconds(0.1f);
+        if (!IsCanTake()) yield break;
+        var _lastItem = characterAtCell.moneyStack.GetLastItem();
+        characterAtCell.moneyStack.RemoveLastItem();
+        if (!_lastItem) yield break;
+        _lastItem.transform.parent = null;
+        _lastItem.PickUp(this);
+
+        takeMoneyCounter--;
+        if (takeMoneyCounter > 0)
+            StartCoroutine(TakeMoneyFromCharacter());
     }
 
     private bool IsCanGive()
     {
-        return characterAtCell.moneyStack.HasEmptySpace();
+        return characterAtCell.moneyStack.HasEmptySpace() && GetItemsCount() + 1 > 0;
     }
 
     private bool IsCanTake()
     {
-        return characterAtCell.moneyStack.GetItemsCount() > 0;
+        return characterAtCell.moneyStack.GetItemsCount() + 1 > 0;
     }
 
     public void GiveMoneyToCharacterAtCell(Character _character, int _howMuch)
     {
         characterAtCell = _character;
         TryGiveMoneyToCharacter(_howMuch);
-
     }
 
     public void TakeMoneyFromCharacterAtCell(Character _character, int _howMuch)
